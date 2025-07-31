@@ -12,6 +12,7 @@ import java.time.Duration;
 public class RegisterSteps {
 
     private final WebDriver driver = Hooks.driver;
+
     @Given("I am on the account page")
     public void i_am_on_the_account_page() {
         driver.get("https://askomdch.com/account");
