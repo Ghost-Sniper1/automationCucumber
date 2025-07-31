@@ -16,5 +16,4 @@ public class TestNGRunnerTest extends AbstractTestNGCucumberTests {
     public void afterClass() {
         System.out.println("\nIN AFTER CLASS\n");
     }
-
 }
