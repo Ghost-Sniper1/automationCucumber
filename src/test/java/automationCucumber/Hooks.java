@@ -10,9 +10,8 @@ public class Hooks {
     public static WebDriver driver;
 
     @Before
-    public void setUp() {
+    public void setUpDriver() {
         if (driver == null) {
-            // If needed, set the path to chromedriver executable:
             System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\chromedriver-win64\\chromedriver.exe");
             driver = new ChromeDriver();
             driver.manage().window().maximize();
@@ -20,7 +19,7 @@ public class Hooks {
     }
 
     @After
-    public void tearDown() {
+    public void quit() {
         if (driver != null) {
             driver.quit();
             driver = null;
