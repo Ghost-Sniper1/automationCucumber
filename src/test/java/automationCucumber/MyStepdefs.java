@@ -25,6 +25,7 @@ public class MyStepdefs {
     public void i_add_a_product_to_the_cart(String productName) throws InterruptedException {
         String selector = String.format("//a[@aria-label='Add “%s” to your cart']", productName);
         driver.findElement(By.xpath(selector)).click();
+        Thread.sleep(2000);
         driver.findElement(By.cssSelector("a[title='View cart']")).click();
     }
 
