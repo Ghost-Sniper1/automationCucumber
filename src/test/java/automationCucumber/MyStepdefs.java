@@ -3,9 +3,12 @@ package automationCucumber;
 import io.cucumber.java.en.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
@@ -13,10 +16,8 @@ public class MyStepdefs {
 
     private final WebDriver driver = Hooks.driver;
 
-
     @Given("I'm on the Store page")
     public void i_m_on_the_store_page() {
-
         driver.get("https://askomdch.com/store");
     }
 
@@ -85,16 +86,23 @@ public class MyStepdefs {
     }
 
     @And("I place an order")
-    public void iPlaceAnOrder() {
-        driver.findElement(By.id("place_order")).click();
+    public void i_place_an_order() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("place_order"))).click();
     }
 
     @Then("The order should be placed successfully")
-    public void theOrderShouldBePlacedSuccessfully() {
+    public void the_order_should_be_placed_successfully() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        By confirmationMessage = By.cssSelector(".woocommerce-thankyou-order-received");
+
+        String actualMessage = wait
+                .until(ExpectedConditions.visibilityOfElementLocated(confirmationMessage))
+                .getText().trim();
+
         String expectedMessage = "Thank you. Your order has been received.";
-        String actualMessage = driver.findElement(By.cssSelector(".woocommerce-notice")).getText().trim();
         Assert.assertEquals(actualMessage, expectedMessage);
     }
 
-    // You can also keep your Add to Cart steps here or in another class
+
 }
