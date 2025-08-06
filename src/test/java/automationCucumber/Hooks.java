@@ -12,7 +12,7 @@ public class Hooks {
     @Before
     public void setUpDriver() {
         if (driver == null) {
-            System.setProperty("webdriver.chrome.driver", "C:\\Jaja - TS\\OnBoarding\\Week 3\\chromedriver-win64\\chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", "D:\\Jaja - TS\\OnBoarding\\Week 3\\chromedriver-win64\\chromedriver.exe");
             driver = new ChromeDriver();
             driver.manage().window().maximize();
         }

@@ -3,6 +3,7 @@ package automationCucumber;
 import io.cucumber.java.en.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,33 +17,37 @@ public class MyStepdefs {
 
     private final WebDriver driver = Hooks.driver;
 
+
+    // Add to Cart Steps Definition
     @Given("I'm on the Store page")
-    public void i_m_on_the_store_page() {
+    public void iMOnTheStorePage() {
         driver.get("https://askomdch.com/store");
     }
 
     @When("I add a {string} to the cart")
-    public void i_add_a_product_to_the_cart(String productName) throws InterruptedException {
-        String selector = String.format("//a[@aria-label='Add “%s” to your cart']", productName);
-        driver.findElement(By.xpath(selector)).click();
-        Thread.sleep(2000);
-        driver.findElement(By.cssSelector("a[title='View cart']")).click();
+    public void iAddAToTheCart(String productName) throws InterruptedException {
+        By addToCartButton = By.cssSelector("a[aria-label='Add “" + productName + "” to your cart']");
+        driver.findElement(addToCartButton).click();
+        By viewCartButton = By.cssSelector("a[title='View cart']");
+        Thread.sleep(5000);
+        driver.findElement(viewCartButton).click();
     }
 
 
     @Then("I should see {int} {string} in the cart")
-    public void i_should_see_in_the_cart(int quantity, String productName) {
-        By productNameField = By.cssSelector("td[class='product-name'] a");
+    public void iShouldSeeInTheCart(int quantity, String productName) {
+        By productNameField = By.cssSelector("td.product-name a");
         String actualProductName = driver.findElement(productNameField).getText();
 
         By productQuantityField = By.cssSelector("input[type='number']");
         String actualQuantity = driver.findElement(productQuantityField).getAttribute("value");
 
-        Assert.assertEquals(productName, actualProductName);
-        Assert.assertEquals(quantity, Integer.parseInt(actualQuantity));
+        Assert.assertEquals(actualProductName, productName);
+        Assert.assertEquals(Integer.parseInt(actualQuantity), quantity);
     }
 
 
+    // Guest Customer Make an Order Steps Definition
     @Given("I'm a guest customer")
     public void iMAGuestCustomer() {
         driver.get("https://askomdch.com/store");
@@ -88,15 +93,21 @@ public class MyStepdefs {
     }
 
     @And("I place an order")
-    public void i_place_an_order() throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+    public void i_place_an_order() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+        // Wait for presence (element is in the DOM)
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("place_order")));
+
+        // Wait for clickable and then click
         wait.until(ExpectedConditions.elementToBeClickable(By.id("place_order"))).click();
     }
+
 
     @Then("The order should be placed successfully")
     public void the_order_should_be_placed_successfully() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        By confirmationMessage = By.cssSelector(".woocommerce-thankyou-order-received");
+        By confirmationMessage = By.xpath("//p[@class='woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received']");
 
         String actualMessage = wait
                 .until(ExpectedConditions.visibilityOfElementLocated(confirmationMessage))
