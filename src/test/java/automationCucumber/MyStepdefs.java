@@ -1,5 +1,6 @@
 package automationCucumber;
 
+import factory.DriverFactory;
 import io.cucumber.java.en.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -15,8 +16,8 @@ import java.util.Map;
 
 public class MyStepdefs {
 
-    private final WebDriver driver = Hooks.driver;
-
+    private final WebDriver driver = DriverFactory.getDriver();
+    private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     // Add to Cart Steps Definition
     @Given("I'm on the Store page")
@@ -29,8 +30,7 @@ public class MyStepdefs {
         By addToCartButton = By.cssSelector("a[aria-label='Add “" + productName + "” to your cart']");
         driver.findElement(addToCartButton).click();
         By viewCartButton = By.cssSelector("a[title='View cart']");
-        Thread.sleep(5000);
-        driver.findElement(viewCartButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(viewCartButton)).click();
     }
 
 
@@ -53,13 +53,15 @@ public class MyStepdefs {
         driver.get("https://askomdch.com/store");
     }
 
-    @And("I have a product in the cart")
-    public void iHaveAProductInTheCart() throws InterruptedException {
-        String selector = "a[aria-label='Add “Blue Shoes” to your cart']";
+    @And("I have a {string} in the cart")
+    public void iHaveProductInCart(String productName) {
+        String selector = "a[aria-label='Add “" + productName + "” to your cart']";
         driver.findElement(By.cssSelector(selector)).click();
-        Thread.sleep(3000);
-        driver.findElement(By.cssSelector("a[title='View cart']")).click();
+
+        By viewCartBtn = By.cssSelector("a[title='View cart']");
+        wait.until(ExpectedConditions.elementToBeClickable(viewCartBtn)).click();
     }
+
 
     @And("I'm on the checkout page")
     public void iMOnTheCheckoutPage() {
@@ -94,27 +96,44 @@ public class MyStepdefs {
 
     @And("I place an order")
     public void i_place_an_order() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
         // Wait for presence (element is in the DOM)
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("place_order")));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@id='place_order']")));
 
         // Wait for clickable and then click
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("place_order"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='place_order']"))).click();
     }
 
 
     @Then("The order should be placed successfully")
     public void the_order_should_be_placed_successfully() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         By confirmationMessage = By.xpath("//p[@class='woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received']");
-
-        String actualMessage = wait
-                .until(ExpectedConditions.visibilityOfElementLocated(confirmationMessage))
+        String actualMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(confirmationMessage))
                 .getText().trim();
 
         String expectedMessage = "Thank you. Your order has been received.";
         Assert.assertEquals(actualMessage, expectedMessage);
     }
+
+    @When("I update the quantity of {string} in the cart to {int}")
+    public void iUpdateTheQuantityOfInTheCartTo(String productName, int newQuantity) {
+        if (newQuantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be at least 1 — received: " + newQuantity);
+        }
+
+        // Locate the quantity input related to the product name
+        String xpath = "//td[@class='product-name']//a[normalize-space()='" + productName + "']/ancestor::tr//input[@type='number']";
+        By quantityField = By.xpath(xpath);
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(quantityField));
+        driver.findElement(quantityField).clear();
+        driver.findElement(quantityField).sendKeys(String.valueOf(newQuantity));
+
+        // Click the "Update cart" button
+        By updateCartButton = By.xpath("//button[normalize-space()='Update cart']");
+        wait.until(ExpectedConditions.elementToBeClickable(updateCartButton)).click();
+    }
+
+
+
 
 }
