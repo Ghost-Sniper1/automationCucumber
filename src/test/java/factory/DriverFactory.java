@@ -7,7 +7,7 @@ public class DriverFactory {
     private static WebDriver driver;
 
     public static WebDriver initializeDriver(){
-        System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\chromedriver-win64\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "D:\\Jaja - TS\\OnBoarding\\Week 3\\chromedriver-win64\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         return driver;

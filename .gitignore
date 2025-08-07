@@ -11,6 +11,9 @@ target/
 *.iws
 *.iml
 *.ipr
+# WebDriver binaries
+**/chromedriver.exe
+**/chromedriver-win64/
 
 ### Eclipse ###
 .apt_generated
