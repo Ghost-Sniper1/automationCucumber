@@ -1,0 +1,62 @@
+package automationCucumber;
+
+import factory.DriverFactory;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
+import java.time.Duration;
+
+public class LoginStepsDef {
+
+    private final WebDriver driver = DriverFactory.getDriver();
+    private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+    // Step Definitions for Login Feature
+    @Given("I am on the Account page for login")
+    public void iAmOnTheAccountPageForLogin() {
+        driver.get("https://askomdch.com/account");
+    }
+
+    @When("I enter {string} into the {string} field for login")
+    public void iEnterIntoTheFieldForLogin(String inputValue, String fieldLabel) {
+        WebElement field;
+        switch (fieldLabel) {
+            case "Username or email address":
+                field = driver.findElement(By.id("username"));
+                break;
+            case "Password":
+                field = driver.findElement(By.id("password"));
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported field: " + fieldLabel);
+        }
+        field.clear();
+        field.sendKeys(inputValue);
+    }
+
+
+    @And("I click the {string} button for regular login")
+    public void iClickTheButtonForRegularLogin(String buttonLabel) {
+        if (buttonLabel.equalsIgnoreCase("LOG IN")) {
+            WebElement loginButton = driver.findElement(By.name("login"));
+            loginButton.click();
+        } else {
+            throw new IllegalArgumentException("Unsupported button: " + buttonLabel);
+        }
+    }
+    @Then("I should be redirected to the {string} page as an authenticated user")
+    public void iShouldBeRedirectedToThePageAsAnAuthenticatedUser(String expectedPageName) {
+        WebElement accountContent = driver.findElement(By.cssSelector(".woocommerce-MyAccount-content"));
+        String contentText = accountContent.getText().toLowerCase();
+
+        boolean containsGreeting = contentText.contains("hello") && contentText.contains("log out");
+        Assert.assertTrue(containsGreeting, "User is not authenticated or not on the 'My account' page.");
+    }
+}

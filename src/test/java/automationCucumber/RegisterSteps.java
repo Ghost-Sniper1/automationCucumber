@@ -11,14 +11,11 @@ import org.testng.Assert;
 import java.time.Duration;
 
 public class RegisterSteps {
-
-    public class MyStepdefs {
         private final WebDriver driver = DriverFactory.getDriver();
         private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         @Given("I am on the account page")
-        public void i_am_on_the_account_page() {
-
+        public void iAmOnTheAccountPage() {
             driver.get("https://askomdch.com/account");
         }
 
@@ -64,4 +61,3 @@ public class RegisterSteps {
             Assert.assertTrue(dashboardText.contains("hello"), "Dashboard greeting not found.");
         }
     }
-}

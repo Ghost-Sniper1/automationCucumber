@@ -9,5 +9,5 @@ Feature: User Registration
     Then I should be redirected to my personal dashboard
 
     Examples: Valid Registration
-      | username               | email                         | password       |
-      | jajatyiuylufyvyufdt    | test565365324@test.com        |   1            |
+      | username   | email           | password       |
+      | loveuj       | uyrer@me.com     |   1            |
