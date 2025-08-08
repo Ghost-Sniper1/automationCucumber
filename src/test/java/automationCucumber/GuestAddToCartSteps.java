@@ -67,10 +67,7 @@ public class GuestAddToCartSteps {
 
     @And("I place an order")
     public void i_place_an_order() {
-        // Wait for presence (element is in the DOM)
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@id='place_order']")));
-
-        // Wait for clickable and then click
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='place_order']"))).click();
     }
 }

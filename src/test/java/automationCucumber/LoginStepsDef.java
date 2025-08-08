@@ -8,10 +8,13 @@ import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.time.Duration;
+
+import static org.testng.Assert.assertEquals;
 
 public class LoginStepsDef {
 
@@ -59,4 +62,13 @@ public class LoginStepsDef {
         boolean containsGreeting = contentText.contains("hello") && contentText.contains("log out");
         Assert.assertTrue(containsGreeting, "User is not authenticated or not on the 'My account' page.");
     }
+
+    @Then("I should see an error message {string}")
+    public void iShouldSeeAnErrorMessage(String expectedOutput) {
+        By errorMessage = By.cssSelector("ul[role='alert'] li");
+        WebElement errorElement = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
+        String errorText = errorElement.getText();
+        assertEquals(expectedOutput, errorText);
+    }
+
 }
