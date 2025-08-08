@@ -9,5 +9,6 @@ Feature: User Registration
     Then I should be redirected to my personal dashboard
 
     Examples: Valid Registration
+    # Before running this test case, the username and email should unique and not already registered(new data).
       | username   | email           | password       |
-      | loveuj       | uyrer@me.com     |   1            |
+      | mon        | mon@me.com      | 343            |
