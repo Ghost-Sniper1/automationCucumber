@@ -10,6 +10,3 @@ Feature: Login functionality
     Examples: Valid Login
       | username_or_email     | password   |
       | test54@test.com       | 1          |
-    # test54@test.com as email
-    # metoo as username
-    # 1 as password
