@@ -59,4 +59,14 @@ public class PasswordRecoveryStepsDefinitions {
             throw new AssertionError("Expected message: '" + expectedMessage + "', but got: '" + actualMessage + "'");
         }
     }
+
+
+    @Then("I should see the error message {string}")
+    public void iShouldSeeTheErrorMessage(String expectedMessage) {
+        By errorMessageLocator = By.xpath("//ul[@class='woocommerce-error']//li");
+        String actualMessage = wait.until(driver -> driver.findElement(errorMessageLocator)).getText().trim();
+        if (!actualMessage.equals(expectedMessage)) {
+            throw new AssertionError("Expected error message: '" + expectedMessage + "', but got: '" + actualMessage + "'");
+        }
+    }
 }

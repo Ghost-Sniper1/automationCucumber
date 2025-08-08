@@ -4,6 +4,7 @@ import factory.DriverFactory;
 import io.cucumber.java.en.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -37,8 +38,9 @@ public class RegisterSteps {
                     throw new IllegalArgumentException("Unsupported field name: " + fieldName);
             }
 
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            wait.until(ExpectedConditions.visibilityOfElementLocated(fieldSelector)).sendKeys(value);
+            WebElement field = wait.until(ExpectedConditions.visibilityOfElementLocated(fieldSelector));
+            field.clear();
+            field.sendKeys(value);
         }
 
         @And("I click the {string} button")
@@ -60,4 +62,13 @@ public class RegisterSteps {
 
             Assert.assertTrue(dashboardText.contains("hello"), "Dashboard greeting not found.");
         }
+
+    @Then("I should see the registration error message {string}")
+    public void iShouldSeeTheRegistrationErrorMessage(String expectedMessage) {
+        By errorMessageLocator = By.xpath("//ul[contains(@class,'woocommerce-error')]//li");
+        String actualMessage = wait.until(driver -> driver.findElement(errorMessageLocator)).getText().trim();
+        if (!actualMessage.equals(expectedMessage)) {
+            throw new AssertionError("Expected error message: '" + expectedMessage + "', but got: '" + actualMessage + "'");
+        }
     }
+}
