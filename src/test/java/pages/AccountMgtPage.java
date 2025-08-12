@@ -29,6 +29,15 @@ public class AccountMgtPage extends BasePage {
     @FindBy(css = ".woocommerce")
     private WebElement altDashboard;
 
+    @FindBy(id = "username")
+    private WebElement loginUsernameFld;
+
+    @FindBy(id = "password")
+    private WebElement loginPasswordFld;
+
+    @FindBy(name = "login")
+    private WebElement loginBtn;
+
     public AccountMgtPage(WebDriver driver) {
         super(driver);
     }
@@ -67,7 +76,6 @@ public class AccountMgtPage extends BasePage {
         try {
             return wait.until(ExpectedConditions.visibilityOf(dashboardText)).getText();
         } catch (TimeoutException e) {
-            // Try the alternative dashboard locator
             return wait.until(ExpectedConditions.visibilityOf(altDashboard)).getText();
         }
     }
@@ -81,5 +89,28 @@ public class AccountMgtPage extends BasePage {
         return enterRegUsername(username)
                 .enterRegEmail(email)
                 .enterRegPassword(password);
+    }
+
+    public AccountMgtPage enterLoginUsername(String username) {
+        WebElement e = wait.until(ExpectedConditions.visibilityOf(loginUsernameFld));
+        e.clear();
+        e.sendKeys(username);
+        return this;
+    }
+
+    public AccountMgtPage enterLoginPassword(String password) {
+        WebElement e = wait.until(ExpectedConditions.visibilityOf(loginPasswordFld));
+        e.clear();
+        e.sendKeys(password);
+        return this;
+    }
+
+    public void clickLoginButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(loginBtn)).click();
+    }
+
+    public void setLoginDetails(String username, String password) {
+        enterLoginUsername(username)
+                .enterLoginPassword(password);
     }
 }

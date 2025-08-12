@@ -7,6 +7,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.List;
+
 public class CheckoutPage extends BasePage{
     @FindBy(id = "billing_first_name")
     private WebElement billingFirstNameField;
@@ -34,6 +36,9 @@ public class CheckoutPage extends BasePage{
 
     @FindBy(xpath = "//p[@class='woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received']")
     private WebElement noticeTxt;
+
+    @FindBy(css = ".blockUI.blockOverlay")
+    private List<WebElement> overlay;
 
     public CheckoutPage(WebDriver driver) {
         super(driver);
@@ -100,7 +105,8 @@ public class CheckoutPage extends BasePage{
     }
 
     public void placeOrder(){
-        wait.until(ExpectedConditions.visibilityOf(placeOrderButton)).click();
+        wait.until(ExpectedConditions.invisibilityOfAllElements(overlay));
+        wait.until(ExpectedConditions.elementToBeClickable(placeOrderButton)).click();
     }
 
     public String getNotice(){
