@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -22,8 +23,11 @@ public class AccountMgtPage extends BasePage {
     @FindBy(css = ".woocommerce-error li")
     private WebElement errorMessage;
 
-    @FindBy(css = ".woocommerce")
+    @FindBy(css = ".woocommerce-MyAccount-content")
     private WebElement dashboardText;
+
+    @FindBy(css = ".woocommerce")
+    private WebElement altDashboard;
 
     public AccountMgtPage(WebDriver driver) {
         super(driver);
@@ -60,7 +64,12 @@ public class AccountMgtPage extends BasePage {
     }
 
     public String getDashboardText() {
-        return wait.until(ExpectedConditions.visibilityOf(dashboardText)).getText();
+        try {
+            return wait.until(ExpectedConditions.visibilityOf(dashboardText)).getText();
+        } catch (TimeoutException e) {
+            // Try the alternative dashboard locator
+            return wait.until(ExpectedConditions.visibilityOf(altDashboard)).getText();
+        }
     }
 
     public AccountMgtPage load() {

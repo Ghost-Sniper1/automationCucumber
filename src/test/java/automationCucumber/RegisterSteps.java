@@ -14,8 +14,9 @@ import java.time.Duration;
 
 public class RegisterSteps {
         private final WebDriver driver = DriverFactory.getDriver();
-        private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(500));
         private final AccountMgtPage accountMgtPage = new AccountMgtPage(driver);
+        private String username, email, password;
 
         @Given("I am on the account page")
         public void iAmOnTheAccountPage() {
@@ -49,15 +50,18 @@ public class RegisterSteps {
 
         @When("I enter {string} into the {string} field")
         public void i_enter_into_the_field(String value, String fieldName) {
+            // Store the values as they come in
             switch (fieldName.toLowerCase()) {
                 case "username":
-                    accountMgtPage.enterRegUsername(value);
+                    username = value;
                     break;
                 case "email address":
-                    accountMgtPage.enterRegEmail(value);
+                    email = value;
                     break;
                 case "password":
-                    accountMgtPage.enterRegPassword(value);
+                    password = value;
+                    // Once we have all fields, set the registration details
+                    accountMgtPage.setRegistrationDetails(username, email, password);
                     break;
                 default:
                     throw new IllegalArgumentException("Unsupported field name: " + fieldName);
