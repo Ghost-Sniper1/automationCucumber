@@ -13,7 +13,7 @@ Feature: User Registration
     # Before running this test case, the username and email should unique and not already registered(new data).
     # The existing one are already registered in the database.
       | username   | email           | password       |
-      | gru        | grut@me.com      | 343            |
+      | yht        | yht@me.com      | 343            |
 
   Scenario Outline: Register with invalid or duplicate inputs
     Given I am on the account page
