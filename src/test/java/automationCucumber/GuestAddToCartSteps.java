@@ -9,6 +9,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.CheckoutPage;
+import pages.StorePage;
 
 import java.time.Duration;
 import java.util.List;
@@ -21,16 +23,22 @@ public class GuestAddToCartSteps {
     // Guest Customer Make an Order Steps Definition
     @Given("I'm a guest customer")
     public void iMAGuestCustomer() {
-        driver.get("https://askomdch.com/store");
+//        driver.get("https://askomdch.com/store");
+
+        /*Implementation using Page Object Model*/
+        new StorePage(driver).load("https://askomdch.com/store");
     }
 
     @And("I have a {string} in the cart")
     public void iHaveProductInCart(String productName) {
-        String selector = "a[aria-label='Add “" + productName + "” to your cart']";
-        driver.findElement(By.cssSelector(selector)).click();
+//        String selector = "a[aria-label='Add “" + productName + "” to your cart']";
+//        driver.findElement(By.cssSelector(selector)).click();
+//
+//        By viewCartBtn = By.cssSelector("a[title='View cart']");
+//        wait.until(ExpectedConditions.elementToBeClickable(viewCartBtn)).click();
 
-        By viewCartBtn = By.cssSelector("a[title='View cart']");
-        wait.until(ExpectedConditions.elementToBeClickable(viewCartBtn)).click();
+        /*Implementation using Page Object Model*/
+        new StorePage(driver).addToCart(productName);
     }
 
 
@@ -41,33 +49,48 @@ public class GuestAddToCartSteps {
 
     @Then("I provide billing details")
     public void iProvideBillingDetails(List<Map<String, String>> billingDetails) {
-        Map<String, String> data = billingDetails.get(0);
+//        Map<String, String> data = billingDetails.get(0);
+//
+//        driver.findElement(By.id("billing_first_name")).clear();
+//        driver.findElement(By.id("billing_first_name")).sendKeys(data.get("firstname"));
+//
+//        driver.findElement(By.id("billing_last_name")).clear();
+//        driver.findElement(By.id("billing_last_name")).sendKeys(data.get("lastname"));
+//
+//        driver.findElement(By.id("billing_address_1")).clear();
+//        driver.findElement(By.id("billing_address_1")).sendKeys(data.get("address_line1"));
+//
+//        driver.findElement(By.id("billing_city")).clear();
+//        driver.findElement(By.id("billing_city")).sendKeys(data.get("city"));
+//
+//        Select stateSelect = new Select(driver.findElement(By.id("billing_state")));
+//        stateSelect.selectByVisibleText(data.get("state"));
+//
+//        driver.findElement(By.id("billing_postcode")).clear();
+//        driver.findElement(By.id("billing_postcode")).sendKeys(data.get("zip"));
+//
+//        driver.findElement(By.id("billing_email")).clear();
+//        driver.findElement(By.id("billing_email")).sendKeys(data.get("email"));
 
-        driver.findElement(By.id("billing_first_name")).clear();
-        driver.findElement(By.id("billing_first_name")).sendKeys(data.get("firstname"));
+        /*Implementation using Page Object Model*/
 
-        driver.findElement(By.id("billing_last_name")).clear();
-        driver.findElement(By.id("billing_last_name")).sendKeys(data.get("lastname"));
-
-        driver.findElement(By.id("billing_address_1")).clear();
-        driver.findElement(By.id("billing_address_1")).sendKeys(data.get("address_line1"));
-
-        driver.findElement(By.id("billing_city")).clear();
-        driver.findElement(By.id("billing_city")).sendKeys(data.get("city"));
-
-        Select stateSelect = new Select(driver.findElement(By.id("billing_state")));
-        stateSelect.selectByVisibleText(data.get("state"));
-
-        driver.findElement(By.id("billing_postcode")).clear();
-        driver.findElement(By.id("billing_postcode")).sendKeys(data.get("zip"));
-
-        driver.findElement(By.id("billing_email")).clear();
-        driver.findElement(By.id("billing_email")).sendKeys(data.get("email"));
+        CheckoutPage checkoutPage = new CheckoutPage(driver);
+        checkoutPage.setBillingDetails(billingDetails.get(0).get("firstname"),
+                billingDetails.get(0).get("lastname"),
+                billingDetails.get(0).get("address_line1"),
+                billingDetails.get(0).get("city"),
+                billingDetails.get(0).get("state"),
+                billingDetails.get(0).get("zip"),
+                billingDetails.get(0).get("email"));
     }
 
     @And("I place an order")
     public void i_place_an_order() {
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@id='place_order']")));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='place_order']"))).click();
+//        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@id='place_order']")));
+//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='place_order']"))).click();
+
+        /*Implementation using Page Object Model*/
+
+        new CheckoutPage(driver).placeOrder();
     }
 }

@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import pages.CheckoutPage;
 
 import java.time.Duration;
 
@@ -21,12 +22,17 @@ public class UpdateCartSteps {
 
     @Then("The order should be placed successfully")
     public void the_order_should_be_placed_successfully() {
-        By confirmationMessage = By.xpath("//p[@class='woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received']");
-        String actualMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(confirmationMessage))
-                .getText().trim();
+//        By confirmationMessage = By.xpath("//p[@class='woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received']");
+//        String actualMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(confirmationMessage))
+//                .getText().trim();
+//
+//        String expectedMessage = "Thank you. Your order has been received.";
+//        Assert.assertEquals(actualMessage, expectedMessage);
 
-        String expectedMessage = "Thank you. Your order has been received.";
-        Assert.assertEquals(actualMessage, expectedMessage);
+
+        /*Implementation using Page Object Model*/
+        Assert.assertEquals("Thank you. Your order has been received.",
+                new CheckoutPage(driver).getNotice());
     }
 
 

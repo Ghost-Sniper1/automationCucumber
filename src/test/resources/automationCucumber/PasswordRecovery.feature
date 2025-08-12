@@ -22,9 +22,9 @@ Feature: Password Recovery
     Then I should see the error message "<expectedError>"
 
     Examples: Invalid Password Recovery
-      | username           | expectedError                        |
-      | risk      | Invalid username or email.          |
-      | risk@me.de| Invalid username or email.          |
-      |           | Enter a username or email address.  |
+      | username           | expectedError                       |
+      | risk               | Invalid username or email.          |
+      | risk@me.de         | Invalid username or email.          |
+      |                    | Enter a username or email address.  |
 
 
