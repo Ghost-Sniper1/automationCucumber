@@ -1,5 +1,6 @@
 Feature: Password Recovery
 
+  @A1
   Scenario Outline: Recover password for existing user
     Given I am on the Account page for password recovery
     When I click the "Lost your password?" link

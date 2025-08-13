@@ -69,7 +69,7 @@ public class PasswordRecoveryStepsDefinitions {
 
         /* POM Implementation for Password Recovery */
         if (buttonLabel.equalsIgnoreCase("RESET PASSWORD")) {
-            accountMgtPage.clickResetPasswordButton();
+            accountMgtPage.clickResetButton();
         } else {
             throw new IllegalArgumentException("Unsupported button: " + buttonLabel);
         }

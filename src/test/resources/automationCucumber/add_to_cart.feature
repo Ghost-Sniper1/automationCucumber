@@ -1,6 +1,5 @@
 Feature: Add to Cart
 
-  @A1
   Scenario Outline: Add one quantity to the cart
     Given I'm on the Store page
     When I add a "<productName>" to the cart

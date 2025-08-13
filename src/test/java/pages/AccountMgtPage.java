@@ -44,7 +44,7 @@ public class AccountMgtPage extends BasePage {
     @FindBy(id = "user_login")
     private WebElement userNameOrEmailFld;
 
-    @FindBy(className = "woocommerce-Button button")
+    @FindBy(css = ".woocommerce-Button.button")
     private WebElement resetPasswordBtn;
 
     @FindBy(xpath = "//div[@role='alert']")
