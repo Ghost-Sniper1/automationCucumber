@@ -38,10 +38,30 @@ public class AccountMgtPage extends BasePage {
     @FindBy(name = "login")
     private WebElement loginBtn;
 
+    @FindBy(xpath = "//a[normalize-space()='Lost your password?']")
+    private WebElement forgotPasswordLink;
+
+    @FindBy(id = "user_login")
+    private WebElement userNameOrEmailFld;
+
+    @FindBy(className = "woocommerce-Button button")
+    private WebElement resetPasswordBtn;
+
+    @FindBy(xpath = "//div[@role='alert']")
+    private WebElement resetConfirmationAlert;
+
+    @FindBy(xpath = "//ul[@class='woocommerce-error']//li")
+    private WebElement resetErrorAlert;
+
     public AccountMgtPage(WebDriver driver) {
         super(driver);
     }
 
+    public void load() {
+        driver.get("https://askomdch.com/account");
+    }
+
+    /* Registration Methods */
     public AccountMgtPage enterRegUsername(String username) {
         WebElement e = wait.until(ExpectedConditions.visibilityOf(regUsernameFld));
         e.clear();
@@ -56,16 +76,14 @@ public class AccountMgtPage extends BasePage {
         return this;
     }
 
-    public AccountMgtPage enterRegPassword(String password) {
+    public void enterRegPassword(String password) {
         WebElement e = wait.until(ExpectedConditions.visibilityOf(regPasswordFld));
         e.clear();
         e.sendKeys(password);
-        return this;
     }
 
-    public AccountMgtPage clickRegisterButton() {
+    public void clickRegisterButton() {
         wait.until(ExpectedConditions.elementToBeClickable(registerBtn)).click();
-        return this;
     }
 
     public String getErrorMessage() {
@@ -80,17 +98,15 @@ public class AccountMgtPage extends BasePage {
         }
     }
 
-    public AccountMgtPage load() {
-        driver.get("https://askomdch.com/account");
-        return this;
-    }
 
-    public AccountMgtPage setRegistrationDetails(String username, String email, String password) {
-        return enterRegUsername(username)
+
+    public void setRegistrationDetails(String username, String email, String password) {
+        enterRegUsername(username)
                 .enterRegEmail(email)
                 .enterRegPassword(password);
     }
 
+    /* Log In Methods */
     public AccountMgtPage enterLoginUsername(String username) {
         WebElement e = wait.until(ExpectedConditions.visibilityOf(loginUsernameFld));
         e.clear();
@@ -98,11 +114,10 @@ public class AccountMgtPage extends BasePage {
         return this;
     }
 
-    public AccountMgtPage enterLoginPassword(String password) {
+    public void enterLoginPassword(String password) {
         WebElement e = wait.until(ExpectedConditions.visibilityOf(loginPasswordFld));
         e.clear();
         e.sendKeys(password);
-        return this;
     }
 
     public void clickLoginButton() {
@@ -113,4 +128,29 @@ public class AccountMgtPage extends BasePage {
         enterLoginUsername(username)
                 .enterLoginPassword(password);
     }
+
+    /* Password Recovery Methods */
+    public void clickResetPasswordButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(forgotPasswordLink)).click();
+    }
+
+    public void enterEmailOrUsername(String userName) {
+        WebElement e = wait.until(ExpectedConditions.visibilityOf(userNameOrEmailFld));
+        e.clear();
+        e.sendKeys(userName);
+    }
+
+    public void clickResetButton(){
+        wait.until(ExpectedConditions.visibilityOf(resetPasswordBtn)).click();
+    }
+
+    public String getResetConfirmationAlertText() {
+        return wait.until(ExpectedConditions.visibilityOf(resetConfirmationAlert)).getText();
+    }
+
+    public String getResetErrorAlertText() {
+        return wait.until(ExpectedConditions.visibilityOf(resetErrorAlert)).getText();
+    }
+
+
 }
