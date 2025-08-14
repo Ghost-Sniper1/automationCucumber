@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import pages.CheckoutPage;
+import pages.UpdateCartPage;
 
 import java.time.Duration;
 
@@ -16,6 +17,7 @@ public class UpdateCartSteps {
     private final WebDriver driver = DriverFactory.getDriver();
     private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     CheckoutPage checkoutPage = new CheckoutPage(driver);
+    UpdateCartPage updateCartPage = new UpdateCartPage(driver);
 
     @Then("The order should be placed successfully")
     public void the_order_should_be_placed_successfully() {
@@ -35,21 +37,24 @@ public class UpdateCartSteps {
 
     @When("I update the quantity of {string} in the cart to {int}")
     public void iUpdateTheQuantityOfInTheCartTo(String productName, int newQuantity) {
-        if (newQuantity <= 0) {
-            throw new IllegalArgumentException("Quantity must be at least 1 — received: " + newQuantity);
-        }
+//        if (newQuantity <= 0) {
+//            throw new IllegalArgumentException("Quantity must be at least 1 — received: " + newQuantity);
+//        }
+//
+//        // Locate the quantity input related to the product name
+//        String xpath = "//td[@class='product-name']//a[normalize-space()='" + productName + "']/ancestor::tr//input[@type='number']";
+//        By quantityField = By.xpath(xpath);
+//
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(quantityField));
+//        driver.findElement(quantityField).clear();
+//        driver.findElement(quantityField).sendKeys(String.valueOf(newQuantity));
+//
+//        // Click the "Update cart" button
+//        By updateCartButton = By.xpath("//button[normalize-space()='Update cart']");
+//        wait.until(ExpectedConditions.elementToBeClickable(updateCartButton)).click();
 
-        // Locate the quantity input related to the product name
-        String xpath = "//td[@class='product-name']//a[normalize-space()='" + productName + "']/ancestor::tr//input[@type='number']";
-        By quantityField = By.xpath(xpath);
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(quantityField));
-        driver.findElement(quantityField).clear();
-        driver.findElement(quantityField).sendKeys(String.valueOf(newQuantity));
-
-        // Click the "Update cart" button
-        By updateCartButton = By.xpath("//button[normalize-space()='Update cart']");
-        wait.until(ExpectedConditions.elementToBeClickable(updateCartButton)).click();
+        /*Implementation using Page Object Model*/
+        updateCartPage.updateProductQuantity(productName, newQuantity);
     }
 
 }
