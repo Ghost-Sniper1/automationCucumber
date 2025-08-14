@@ -20,13 +20,16 @@ public class GuestAddToCartSteps {
 
     private final WebDriver driver = DriverFactory.getDriver();
     private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    StorePage storePage = new StorePage(driver);
+    CheckoutPage checkoutPage = new CheckoutPage(driver);
+
     // Guest Customer Make an Order Steps Definition
     @Given("I'm a guest customer")
     public void iMAGuestCustomer() {
 //        driver.get("https://askomdch.com/store");
 
         /*Implementation using Page Object Model*/
-        new StorePage(driver).load("https://askomdch.com/store");
+        storePage.load("https://askomdch.com/store");
     }
 
     @And("I have a {string} in the cart")
@@ -38,7 +41,7 @@ public class GuestAddToCartSteps {
 //        wait.until(ExpectedConditions.elementToBeClickable(viewCartBtn)).click();
 
         /*Implementation using Page Object Model*/
-        new StorePage(driver).addToCart(productName);
+        storePage.addToCart(productName);
     }
 
 
@@ -74,7 +77,6 @@ public class GuestAddToCartSteps {
 
         /*Implementation using Page Object Model*/
 
-        CheckoutPage checkoutPage = new CheckoutPage(driver);
         checkoutPage.setBillingDetails(billingDetails.get(0).get("firstname"),
                 billingDetails.get(0).get("lastname"),
                 billingDetails.get(0).get("address_line1"),
@@ -90,7 +92,6 @@ public class GuestAddToCartSteps {
 //        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='place_order']"))).click();
 
         /*Implementation using Page Object Model*/
-
-        new CheckoutPage(driver).placeOrder();
+        checkoutPage.placeOrder();
     }
 }

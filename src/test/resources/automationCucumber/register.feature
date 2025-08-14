@@ -14,7 +14,7 @@ Feature: User Registration
     # Before running this test case, the username and email should unique and not already registered(new data).
     # The existing one are already registered in the database.
       | username   | email           | password       |
-      | yessir       | yessir@me.com       | 343            |
+      | yessir     | yessir@me.com   | 343            |
 
   @A8
   Scenario Outline: Register with invalid or duplicate inputs

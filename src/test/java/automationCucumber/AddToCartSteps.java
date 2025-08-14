@@ -17,13 +17,14 @@ import java.time.Duration;
 public class AddToCartSteps {
     private final WebDriver driver = DriverFactory.getDriver();
     private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    StorePage storePage = new StorePage(driver);
 
     @Given("I'm on the Store page")
     public void iMOnTheStorePage() {
 //        driver.get("https://askomdch.com/store");
 
         /*Implementation using Page Object Model*/
-        new StorePage(driver).load("https://askomdch.com/store");
+        storePage.load("https://askomdch.com/store");
     }
 
     @When("I add a {string} to the cart")
@@ -34,7 +35,7 @@ public class AddToCartSteps {
 //        wait.until(ExpectedConditions.elementToBeClickable(viewCartButton)).click();
 
         /*Implementation using Page Object Model*/
-        new StorePage(driver).addToCart(productName);
+        storePage.addToCart(productName);
     }
 
 
