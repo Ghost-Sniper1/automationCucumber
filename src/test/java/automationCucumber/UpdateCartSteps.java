@@ -15,10 +15,7 @@ import java.time.Duration;
 public class UpdateCartSteps {
     private final WebDriver driver = DriverFactory.getDriver();
     private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-
-
-
+    CheckoutPage checkoutPage = new CheckoutPage(driver);
 
     @Then("The order should be placed successfully")
     public void the_order_should_be_placed_successfully() {
@@ -32,12 +29,8 @@ public class UpdateCartSteps {
 
         /*Implementation using Page Object Model*/
         Assert.assertEquals("Thank you. Your order has been received.",
-                new CheckoutPage(driver).getNotice());
+                checkoutPage.getNotice());
     }
-
-
-
-
 
 
     @When("I update the quantity of {string} in the cart to {int}")
@@ -58,7 +51,5 @@ public class UpdateCartSteps {
         By updateCartButton = By.xpath("//button[normalize-space()='Update cart']");
         wait.until(ExpectedConditions.elementToBeClickable(updateCartButton)).click();
     }
-
-
 
 }
