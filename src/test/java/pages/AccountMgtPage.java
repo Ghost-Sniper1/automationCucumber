@@ -57,9 +57,6 @@ public class AccountMgtPage extends BasePage {
         super(driver);
     }
 
-    public void load() {
-        driver.get("https://askomdch.com/account");
-    }
 
     /* Registration Methods */
     public AccountMgtPage enterRegUsername(String username) {

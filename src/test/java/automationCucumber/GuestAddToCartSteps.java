@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.CartPage;
 import pages.CheckoutPage;
 import pages.StorePage;
 
@@ -19,9 +20,9 @@ import java.util.Map;
 public class GuestAddToCartSteps {
 
     private final WebDriver driver = DriverFactory.getDriver();
-    private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     StorePage storePage = new StorePage(driver);
     CheckoutPage checkoutPage = new CheckoutPage(driver);
+    CartPage cartPage = new CartPage(driver);
 
     // Guest Customer Make an Order Steps Definition
     @Given("I'm a guest customer")
@@ -47,7 +48,8 @@ public class GuestAddToCartSteps {
 
     @And("I'm on the checkout page")
     public void iMOnTheCheckoutPage() {
-        driver.findElement(By.cssSelector(".checkout-button")).click();
+//        driver.findElement(By.cssSelector(".checkout-button")).click();
+         cartPage.checkOut();
     }
 
     @Then("I provide billing details")

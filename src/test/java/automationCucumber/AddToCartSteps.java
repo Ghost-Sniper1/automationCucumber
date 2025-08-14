@@ -16,8 +16,8 @@ import java.time.Duration;
 
 public class AddToCartSteps {
     private final WebDriver driver = DriverFactory.getDriver();
-    private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     StorePage storePage = new StorePage(driver);
+    CartPage cartPage = new CartPage(driver);
 
     @Given("I'm on the Store page")
     public void iMOnTheStorePage() {
@@ -52,7 +52,6 @@ public class AddToCartSteps {
 //        Assert.assertEquals(Integer.parseInt(actualQuantity), quantity);
 
         /*Implementation using Page Object Model*/
-        CartPage cartPage = new CartPage(driver);
         Assert.assertEquals(productName, cartPage.getProductName());
         Assert.assertEquals(quantity, cartPage.getProductQuantity());
     }

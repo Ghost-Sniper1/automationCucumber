@@ -16,7 +16,7 @@ import java.time.Duration;
 public class PasswordRecoveryStepsDefinitions {
 
     private final WebDriver driver = DriverFactory.getDriver();
-    private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//    private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     private final AccountMgtPage accountMgtPage = new AccountMgtPage(driver);
 
     @Given("I am on the Account page for password recovery")
@@ -24,7 +24,7 @@ public class PasswordRecoveryStepsDefinitions {
 //        driver.get("https://askomdch.com/account");
 
         /* POM Implementation for Password Recovery */
-        accountMgtPage.load();
+        accountMgtPage.load("https://askomdch.com/account");
 
     }
 

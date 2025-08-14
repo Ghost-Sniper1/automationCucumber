@@ -20,7 +20,7 @@ import static org.testng.Assert.assertEquals;
 public class LoginStepsDef {
 
     private final WebDriver driver = DriverFactory.getDriver();
-    private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//    private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     private final AccountMgtPage accountMgtPage = new AccountMgtPage(driver);
     private String username, password;
 
@@ -30,7 +30,7 @@ public class LoginStepsDef {
 //        driver.get("https://askomdch.com/account");
 
         /* POM Implementation for login */
-        accountMgtPage.load();
+        accountMgtPage.load("https://askomdch.com/account");
     }
 
     @When("I enter {string} into the {string} field for login")

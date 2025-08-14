@@ -14,7 +14,7 @@ import java.time.Duration;
 
 public class RegisterSteps {
         private final WebDriver driver = DriverFactory.getDriver();
-        private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(500));
+//        private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(500));
         private final AccountMgtPage accountMgtPage = new AccountMgtPage(driver);
         private String username, email, password;
 
@@ -22,7 +22,7 @@ public class RegisterSteps {
         public void iAmOnTheAccountPage() {
 //            driver.get("https://askomdch.com/account");
 
-            accountMgtPage.load();
+            accountMgtPage.load("https://askomdch.com/account");
         }
 
 //        @When("I enter {string} into the {string} field")
