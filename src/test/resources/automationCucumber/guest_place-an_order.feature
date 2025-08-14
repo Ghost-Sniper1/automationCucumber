@@ -1,5 +1,6 @@
 Feature: Place an order
 
+  @A2
   Scenario Outline: using default payment option
     Given I'm a guest customer
     And I have a "<productName>" in the cart

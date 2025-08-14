@@ -1,6 +1,6 @@
 Feature: Login functionality
 
-  @A2
+  @A3
   Scenario Outline: Successful login with valid credentials
     Given I am on the Account page for login
     When I enter "<username_or_email>" into the "Username or email address" field for login
@@ -12,6 +12,7 @@ Feature: Login functionality
       | username_or_email     | password   |
       | test54@test.com       | 1          |
 
+  @A4
   Scenario Outline: Unsuccessful login with invalid credentials or empty fields
     Given I am on the Account page for login
     When I enter "<username_or_email>" into the "Username or email address" field for login

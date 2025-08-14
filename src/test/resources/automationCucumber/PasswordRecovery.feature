@@ -1,6 +1,6 @@
 Feature: Password Recovery
 
-  @A1
+  @A5
   Scenario Outline: Recover password for existing user
     Given I am on the Account page for password recovery
     When I click the "Lost your password?" link
@@ -14,7 +14,7 @@ Feature: Password Recovery
       | testtest                |
       | fri@me.com              |
 
-
+  @A6
   Scenario Outline: Recover password with invalid or empty input
     Given I am on the Account page for password recovery
     When I click the "Lost your password?" link
